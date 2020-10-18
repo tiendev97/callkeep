@@ -459,11 +459,6 @@ contactIdentifier:(NSString * _Nullable)contactIdentifier
     [CallKeep initCallKitProvider];
     [sharedProvider reportNewIncomingCallWithUUID:uuid update:callUpdate completion:^(NSError * _Nullable error) {
         CallKeep *callKeep = [CallKeep allocWithZone: nil];
-        if(fromPushKit){
-            [callKeep sendEventWithNameWrapper:CallKeepReceivePushVOIP body:@{
-                @"payload": payload ? payload : @"",
-            }];
-        }
         [callKeep sendEventWithNameWrapper:CallKeepDidDisplayIncomingCall body:@{
             @"error": error && error.localizedDescription ? error.localizedDescription : @"",
             @"callUUID": uuidString,
@@ -493,6 +488,13 @@ contactIdentifier:(NSString * _Nullable)contactIdentifier
                   fromPushKit:(BOOL)fromPushKit
 {
     [CallKeep reportNewIncomingCall: uuidString handle:handle handleType:handleType hasVideo:hasVideo localizedCallerName:localizedCallerName fromPushKit: fromPushKit payload:nil withCompletionHandler:nil];
+}
+
++ (void)receivePushKit:(NSDictionary *)payload
+{
+    [callKeep sendEventWithNameWrapper:CallKeepReceivePushVOIP body:@{
+                @"payload": payload ? payload : @"",
+            }];
 }
 
 - (BOOL)lessThanIos10_2
