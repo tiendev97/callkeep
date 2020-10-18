@@ -492,6 +492,7 @@ contactIdentifier:(NSString * _Nullable)contactIdentifier
 
 + (void)receivePushKit:(NSDictionary *)payload
 {
+    CallKeep *callKeep = [CallKeep allocWithZone: nil];
     [callKeep sendEventWithNameWrapper:CallKeepReceivePushVOIP body:@{
                 @"payload": payload ? payload : @"",
             }];
@@ -792,3 +793,4 @@ continueUserActivity:(NSUserActivity *)userActivity
 }
 
 @end
+
