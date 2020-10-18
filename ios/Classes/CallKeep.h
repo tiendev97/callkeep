@@ -50,10 +50,4 @@ continueUserActivity:(NSUserActivity *)userActivity
                  reason:(int)reason;
 
 + (BOOL)isCallActive:(NSString *)uuidString;
-
-+ (void) displayIncomingCall:(NSString *)uuidString
-                       handle:(NSString *)handle
-                   handleType:(NSString *)handleType
-                     hasVideo:(BOOL)hasVideo
-         localizedCallerName:(NSString * _Nullable)localizedCallerName;
 @end
