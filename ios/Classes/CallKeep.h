@@ -50,4 +50,6 @@ continueUserActivity:(NSUserActivity *)userActivity
                  reason:(int)reason;
 
 + (BOOL)isCallActive:(NSString *)uuidString;
+
++ (void)receivePushKit:(NSDictionary *)payload;
 @end
