@@ -28,6 +28,7 @@ static NSString *const CallKeepDidToggleHoldAction = @"CallKeepDidToggleHoldActi
 static NSString *const CallKeepProviderReset = @"CallKeepProviderReset";
 static NSString *const CallKeepCheckReachability = @"CallKeepCheckReachability";
 static NSString *const CallKeepDidLoadWithEvents = @"CallKeepDidLoadWithEvents";
+static NSString *const CallKeepReceivePushVOIP = @"CallKeepReceivePushVOIP";
 
 @implementation CallKeep
 {
@@ -458,6 +459,11 @@ contactIdentifier:(NSString * _Nullable)contactIdentifier
     [CallKeep initCallKitProvider];
     [sharedProvider reportNewIncomingCallWithUUID:uuid update:callUpdate completion:^(NSError * _Nullable error) {
         CallKeep *callKeep = [CallKeep allocWithZone: nil];
+        if(fromPushKit){
+            [callKeep sendEventWithNameWrapper:CallKeepReceivePushVOIP body:@{
+                @"payload": payload ? payload : @"",
+            }];
+        }
         [callKeep sendEventWithNameWrapper:CallKeepDidDisplayIncomingCall body:@{
             @"error": error && error.localizedDescription ? error.localizedDescription : @"",
             @"callUUID": uuidString,
