@@ -88,3 +88,10 @@ class CallKeepCheckReachability extends EventType {
 class CallKeepDidLoadWithEvents extends EventType {
   CallKeepDidLoadWithEvents();
 }
+
+class CallKeepReceivePushVOIP extends EventType {
+  CallKeepReceivePushVOIP();
+  CallKeepReceivePushVOIP.fromMap(Map<dynamic, dynamic> arguments)
+      : payload = arguments['payload'] as Map;
+  Map<dynamic, dynamic> payload;
+}
