@@ -11,7 +11,7 @@ import 'package:flutter/material.dart'
         Text,
         Widget;
 import 'package:flutter/services.dart' show MethodChannel;
-
+import 'package:flutter/foundation.dart';
 import 'actions.dart';
 import 'event.dart';
 
@@ -335,7 +335,9 @@ class FlutterCallkeep extends EventManager {
   }
 
   Future<void> eventListener(MethodCall call) async {
-    print('[CallKeep] INFO: received event "${call.method}" ${call.arguments}');
+    if(!kReleaseMode){
+      print('[CallKeep] INFO: received event "${call.method}" ${call.arguments}');
+    }
     switch (call.method) {
       case 'CallKeepDidReceiveStartCallAction':
         emit(CallKeepDidReceiveStartCallAction.fromMap(
@@ -379,6 +381,10 @@ class FlutterCallkeep extends EventManager {
         break;
       case 'CallKeepDidLoadWithEvents':
         emit(CallKeepDidLoadWithEvents());
+        break;
+      case 'CallKeepReceivePushVOIP':
+        emit(CallKeepReceivePushVOIP.fromMap(
+            call.arguments as Map<dynamic, dynamic>));
         break;
     }
   }
