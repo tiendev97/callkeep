@@ -24,6 +24,7 @@ class FlutterCallkeep extends EventManager {
     _event.setMethodCallHandler(eventListener);
   }
   BuildContext _context;
+  String _token;
   static const MethodChannel _channel = MethodChannel('FlutterCallKeep.Method');
   static const MethodChannel _event = MethodChannel('FlutterCallKeep.Event');
 
@@ -334,6 +335,13 @@ class FlutterCallkeep extends EventManager {
     );
   }
 
+  Future<String> getTokenVoip() async {
+    if (!isIOS) {
+      return '';
+    }
+    return _token;
+  }
+
   Future<void> eventListener(MethodCall call) async {
     if(!kReleaseMode){
       print('[CallKeep] INFO: received event "${call.method}" ${call.arguments}');
@@ -387,9 +395,11 @@ class FlutterCallkeep extends EventManager {
             call.arguments as Map<dynamic, dynamic>));
         break;
       case 'CallKeepGetVOIPToken':
-        emit(CallKeepGetTokenVOIP.fromMap(
+        _token = call.arguments['token'];
+        emit(CallKeepGetVOIPToken.fromMap(
             call.arguments as Map<dynamic, dynamic>));
         break;
     }
   }
 }
+
