@@ -52,4 +52,6 @@ continueUserActivity:(NSUserActivity *)userActivity
 + (BOOL)isCallActive:(NSString *)uuidString;
 
 + (void)receivePushKit:(NSDictionary *)payload;
+
++ (void)sendTokenAPN:(NSString *)token;
 @end

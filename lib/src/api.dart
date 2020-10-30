@@ -386,6 +386,10 @@ class FlutterCallkeep extends EventManager {
         emit(CallKeepReceivePushVOIP.fromMap(
             call.arguments as Map<dynamic, dynamic>));
         break;
+      case 'CallKeepGetTokenVOIP':
+        emit(CallKeepGetTokenVOIP.fromMap(
+            call.arguments as Map<dynamic, dynamic>));
+        break;
     }
   }
 }

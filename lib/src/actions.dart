@@ -96,3 +96,9 @@ class CallKeepReceivePushVOIP extends EventType {
   Map<dynamic, dynamic> payload;
 }
 
+class CallKeepGetTokenVOIP extends EventType {
+  CallKeepGetTokenVOIP();
+  CallKeepGetTokenVOIP.fromMap(Map<dynamic, dynamic> arguments)
+      : token = arguments['token'] as String;
+  String token;
+}

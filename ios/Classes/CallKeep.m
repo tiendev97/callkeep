@@ -29,6 +29,7 @@ static NSString *const CallKeepProviderReset = @"CallKeepProviderReset";
 static NSString *const CallKeepCheckReachability = @"CallKeepCheckReachability";
 static NSString *const CallKeepDidLoadWithEvents = @"CallKeepDidLoadWithEvents";
 static NSString *const CallKeepReceivePushVOIP = @"CallKeepReceivePushVOIP";
+static NSString *const CallKeepGetVOIPToken = @"CallKeepGetVOIPToken";
 
 @implementation CallKeep
 {
@@ -495,6 +496,13 @@ contactIdentifier:(NSString * _Nullable)contactIdentifier
     CallKeep *callKeep = [CallKeep allocWithZone: nil];
     [callKeep sendEventWithName:CallKeepReceivePushVOIP body:@{
                 @"payload": payload ? payload : @"",
+            }];
+}
+
++ (void)sendTokenAPN:(NSString *)token{
+    CallKeep *callKeep = [CallKeep allocWithZone: nil];
+    [callKeep sendEventWithName:CallKeepGetVOIPToken body:@{
+                @"token": token ? token : @"",
             }];
 }
 
