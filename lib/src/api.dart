@@ -1,6 +1,8 @@
+//@dart=2.9
 import 'dart:async';
 import 'dart:io';
-import 'package:flutter/services.dart';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart'
     show
         showDialog,
@@ -10,8 +12,9 @@ import 'package:flutter/material.dart'
         Navigator,
         Text,
         Widget;
+import 'package:flutter/services.dart';
 import 'package:flutter/services.dart' show MethodChannel;
-import 'package:flutter/foundation.dart';
+
 import 'actions.dart';
 import 'event.dart';
 
@@ -343,8 +346,9 @@ class FlutterCallkeep extends EventManager {
   }
 
   Future<void> eventListener(MethodCall call) async {
-    if(!kReleaseMode){
-      print('[CallKeep] INFO: received event "${call.method}" ${call.arguments}');
+    if (!kReleaseMode) {
+      print(
+          '[CallKeep] INFO: received event "${call.method}" ${call.arguments}');
     }
     switch (call.method) {
       case 'CallKeepDidReceiveStartCallAction':
@@ -402,4 +406,3 @@ class FlutterCallkeep extends EventManager {
     }
   }
 }
-

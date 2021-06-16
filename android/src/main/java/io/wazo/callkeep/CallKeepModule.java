@@ -217,7 +217,6 @@ public class CallKeepModule {
     public void setup(ConstraintsMap options) {
         VoiceConnectionService.setAvailable(false);
         this._settings = options;
-
         if (isConnectionServiceAvailable()) {
             this.registerPhoneAccount();
             this.registerEvents();
@@ -545,7 +544,7 @@ public class CallKeepModule {
     @SuppressLint("WrongConstant")
     public void backToForeground(@NonNull MethodChannel.Result result) {
         Context context = getAppContext();
-        String packageName = context.getApplicationContext().getPackageName();
+        String packageName = context.getPackageName();
         Intent focusIntent = context.getPackageManager().getLaunchIntentForPackage(packageName).cloneFilter();
         Activity activity = this._currentActivity;
         boolean isOpened = activity != null;
@@ -558,10 +557,13 @@ public class CallKeepModule {
                     WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED +
                     WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD +
                     WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-
-            this._currentActivity.startActivity(focusIntent);
+            if (activity != null) {
+                activity.startActivity(focusIntent);
+            } else {
+                context.startActivity(focusIntent);
+            }
         }
-        result.success(null);
+        result.success(isOpened);
     }
 
     private void initializeTelecomManager() {
@@ -598,7 +600,7 @@ public class CallKeepModule {
     }
 
     private void sendEventToFlutter(String eventName, @Nullable ConstraintsMap params) {
-        _eventChannel.invokeMethod(eventName, params != null? params.toMap() : null);
+        _eventChannel.invokeMethod(eventName, params.toMap());
     }
 
     private String getApplicationName(Context appContext) {
@@ -735,10 +737,10 @@ public class CallKeepModule {
                     sendEventToFlutter("CallKeepDidReceiveStartCallAction", args);
                     break;
                 case ACTION_AUDIO_SESSION:
-                    sendEventToFlutter("CallKeepDidActivateAudioSession", null);
+                    sendEventToFlutter("CallKeepDidActivateAudioSession", args);
                     break;
                 case ACTION_CHECK_REACHABILITY:
-                    sendEventToFlutter("CallKeepCheckReachability", null);
+                    sendEventToFlutter("CallKeepCheckReachability", args);
                     break;
                 case ACTION_WAKE_APP:
                     Intent headlessIntent = new Intent(_context, CallKeepBackgroundMessagingService.class);
